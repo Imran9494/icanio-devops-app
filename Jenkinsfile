@@ -5,6 +5,7 @@ pipeline {
     environment {
         IMAGE_NAME = "icanio-devops-app"
         IMAGE_TAG  = "${BUILD_NUMBER}"
+	DOCKERHUB_REPO = "<YOUR_DOCKERHUB_USERNAME>/icanio-devops-app"
     }
 
     stages {
@@ -41,6 +42,32 @@ pipeline {
                 '''
             }
         }
+	stage('Push to Registry') {
+    steps {
+        withCredentials([
+            usernamePassword(
+                credentialsId: 'dockerhub-credentials',
+                usernameVariable: 'DOCKER_USERNAME',
+                passwordVariable: 'DOCKER_PASSWORD'
+            )
+        ]) {
+            sh '''
+                echo "$DOCKER_PASSWORD" | docker login \
+                    -u "$DOCKER_USERNAME" \
+                    --password-stdin
+
+                docker tag \
+                    icanio-devops-app:${IMAGE_TAG} \
+                    ${DOCKERHUB_REPO}:${IMAGE_TAG}
+
+                docker push \
+                    ${DOCKERHUB_REPO}:${IMAGE_TAG}
+
+                docker logout
+            '''
+        }
+    }
+}
     }
 
     post {
