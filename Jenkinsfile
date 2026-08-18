@@ -5,7 +5,6 @@ pipeline {
     environment {
         IMAGE_NAME = "icanio-devops-app"
         IMAGE_TAG  = "${BUILD_NUMBER}"
-	DOCKERHUB_REPO = "<YOUR_DOCKERHUB_USERNAME>/icanio-devops-app"
     }
 
     stages {
@@ -61,7 +60,7 @@ pipeline {
                     ${DOCKERHUB_REPO}:${IMAGE_TAG}
 
                 docker push \
-                    ${DOCKERHUB_REPO}:${IMAGE_TAG}
+                    "$DOCKER_USERNAME/${IMAGE_NAME}:${IMAGE_TAG}"
 
                 docker logout
             '''
