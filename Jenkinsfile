@@ -56,8 +56,8 @@ pipeline {
                     --password-stdin
 
                 docker tag \
-                    icanio-devops-app:${IMAGE_TAG} \
-                    ${DOCKERHUB_REPO}:${IMAGE_TAG}
+                    ${IMAGE_NAME}:${IMAGE_TAG} \
+                    ${DOCKER_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}
 
                 docker push \
                     "$DOCKER_USERNAME/${IMAGE_NAME}:${IMAGE_TAG}"
