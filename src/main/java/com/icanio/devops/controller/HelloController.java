@@ -8,6 +8,6 @@ public class HelloController {
 
     @GetMapping("/")
     public String home() {
-        return "ICANIO DevOps Assessment App v2 is running!";
+        return "ICANIO DevOps Assessment App v3 is running!";
     }
 }
